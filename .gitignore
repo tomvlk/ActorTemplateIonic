@@ -44,3 +44,6 @@ Thumbs.db
 # Jetbrains
 *.iml
 .idea
+
+# Private data.
+src/app/constants.ts
