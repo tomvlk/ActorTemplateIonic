@@ -1,3 +1,32 @@
-<h1>
-  {{title}}
-</h1>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Actor Template | {{ title }}</title>
+  <base href="/">
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <md-toolbar color="primary">
+    ActorTemplate
+    <span style="width: 50px;"></span>
+    <button md-button>
+      <md-icon>home</md-icon>
+      Home
+    </button>
+  </md-toolbar>
+
+  <div class="app-content">
+    <router-outlet></router-outlet>
+  </div>
+
+
+
+
+</body>
+</html>
