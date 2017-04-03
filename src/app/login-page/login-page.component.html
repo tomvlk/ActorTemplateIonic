@@ -1,0 +1,44 @@
+<button type="button" (click)="this.auth.login()">Login</button>
+
+<div class="center-container">
+  <md-card>
+    <md-card-header>
+      <md-card-title>
+        Login
+      </md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <p>
+        To use the Actor Template application you have the authenticate with either credentials or an account by one of our authentication partners.
+      </p>
+
+      <form class="login-form">
+        <p>
+          <md-input-container class="full-width">
+            <input mdInput placeholder="Email address">
+          </md-input-container>
+
+          <md-input-container class="full-width">
+            <input mdInput type="password" placeholder="Password">
+          </md-input-container>
+        </p>
+
+        <p>
+          <button md-button>
+            Login with credentials
+          </button>
+        </p>
+
+        <p>
+          <button md-button class="facebook-button" (click)="login(2)">
+            <md-icon fontSet="fontawesome" fontIcon="fa-facebook"></md-icon> Sign in with Facebook
+          </button>
+          <button md-button class="google-button" (click)="login(3)">
+            <md-icon fontSet="fontawesome" fontIcon="fa-google"></md-icon> Sign in with Google
+          </button>
+        </p>
+      </form>
+
+    </md-card-content>
+  </md-card>
+</div>
