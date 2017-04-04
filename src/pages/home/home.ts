@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Storage } from '@ionic/storage';
 
-import { NavController, Platform, ModalController, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { Auth } from "../../providers/auth";
 import { FirebaseAuthState, AuthProviders, AuthMethods } from "angularfire2";
 import { AuthRegisterPage } from "../auth-register/auth-register";
@@ -13,8 +12,7 @@ import { AuthRegisterPage } from "../auth-register/auth-register";
 export class HomePage {
   private loading: Loading;
 
-  public isLoading: boolean = true;
-  public isAuthenticated: boolean = false;
+  public isAuthenticated: boolean = null;
 
   public loginCredentials = {email: 'tom.valk@student.hu.nl', password: 'Welkom01'};
 
@@ -24,11 +22,8 @@ export class HomePage {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public auth: Auth,
-    public storage: Storage,
-    public platform: Platform,
   ) {
     this.auth.firebase.subscribe(state => {
-      this.isLoading = false;
       this.isAuthenticated = (state !== null);
     });
   }
@@ -67,7 +62,6 @@ export class HomePage {
 
   private handleSuccess(state: FirebaseAuthState) {
     this.hideLoading();
-    console.log(state);
   }
 
   private handleError(err: firebase.FirebaseError) {
