@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, Loading, AlertController, PopoverController } from 'ionic-angular';
 import { Auth } from "../../providers/auth";
 import { FirebaseAuthState, AuthProviders, AuthMethods } from "angularfire2";
 import { AuthRegisterPage } from "../auth-register/auth-register";
+import { HomePopoverPage } from "../home-popover/home-popover";
 
 @Component({
   selector: 'page-home',
@@ -21,6 +22,7 @@ export class HomePage {
     public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
+    public popoverCtrl: PopoverController,
     public auth: Auth,
   ) {
     this.auth.firebase.subscribe(state => {
@@ -40,6 +42,10 @@ export class HomePage {
     if (this.loading) {
       this.loading.dismiss();
     }
+  }
+
+  public showPopover(ev) {
+    this.popoverCtrl.create(HomePopoverPage).present({ev: ev});
   }
 
   public createAccount() {

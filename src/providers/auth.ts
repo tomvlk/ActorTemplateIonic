@@ -7,11 +7,20 @@ import { EmailPasswordCredentials } from "angularfire2/auth";
 export class Auth {
   private authState: FirebaseAuthState;
 
+  public name: string = '';
+
   constructor(
     public firebase: AngularFireAuth,
   ) {
     this.firebase.subscribe(state => {
       this.authState = state;
+      if (state !== null && state.auth !== null) {
+        if (state.auth.displayName) {
+          this.name = state.auth.displayName;
+        } else {
+          this.name = state.auth.email;
+        }
+      }
     });
   }
 
