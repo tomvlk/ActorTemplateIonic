@@ -3,30 +3,42 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AngularFireModule } from 'angularfire2';
-
-import { firebaseConfig } from './app.constants';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { firebaseConfig } from './app.constants';
+
+import { Auth } from "../providers/auth";
+import { AuthForgotPage } from "../pages/auth-forgot/auth-forgot";
+import { AuthRegisterPage } from "../pages/auth-register/auth-register";
+
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    AuthRegisterPage,
+    AuthForgotPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
+    IonicStorageModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    AuthRegisterPage,
+    AuthForgotPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+
+    Auth,
   ]
 })
 export class AppModule {}

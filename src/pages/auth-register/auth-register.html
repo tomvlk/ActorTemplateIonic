@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Registration</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="register-content">
+  <div class="register-box">
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+      <ion-row>
+        <ion-col offset-md-3 col-md-6>
+          <ion-list inset>
+            <ion-item>
+              <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col offset-md-3 col-md-6 class="signup-col">
+          <ion-row>
+            <ion-col>
+              <p>
+                When clicking on 'Register' you accept the terms of service.
+                <br>
+                After your registration you will be logged in with your newly
+                created account.
+              </p>
+              <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Register</button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>

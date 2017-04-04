@@ -1,14 +1,70 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Ionic Blank
+    <ion-title *ngIf="! isLoading && ! isAuthenticated">
+      Login / Register
+    </ion-title>
+    <ion-title *ngIf="! isLoading && isAuthenticated">
+      Actor Templates
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content>
+  <ng-container *ngIf="! isLoading && ! isAuthenticated">
+    <div class="login-content" padding>
+      <ion-row class="login-row">
+        <ion-col></ion-col>
+        <ion-col width-67>
+          <h4 class="login-title">
+            Actor Templates
+          </h4>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+
+      <div class="login-box">
+        <form (ngSubmit)="login()" #loginForm="ngForm">
+          <ion-row>
+            <ion-col offset-md-3 col-md-6>
+              <ion-list inset>
+                <ion-item>
+                  <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="loginCredentials.email" required></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="loginCredentials.password" required></ion-input>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col offset-md-3 col-md-6 class="signup-col">
+              <ion-row>
+                <ion-col>
+                  <button ion-button class="submit-btn" full type="submit" [disabled]="!loginForm.form.valid">Login</button>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <button ion-button class="social-btn" full type="button" (click)="socialLogin('facebook')">Facebook</button>
+                </ion-col>
+                <ion-col>
+                  <button ion-button class="social-btn" full type="button" (click)="socialLogin('google')">Google</button>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <button ion-button class="register-btn" block outline type="button" (click)="createAccount()">Create New Account</button>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </form>
+      </div>
+
+    </div>
+  </ng-container>
+  <ng-container *ngIf="! isLoading && isAuthenticated">
+    ok
+  </ng-container>
 </ion-content>
