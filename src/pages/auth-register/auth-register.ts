@@ -8,7 +8,7 @@ import { Auth } from "../../providers/auth";
 })
 export class AuthRegisterPage {
 
-  public registerCredentials = {email: '', password: ''};
+  public registerCredentials = {email: '', password: '', name: ''};
 
   constructor(
     public navCtrl: NavController,
@@ -18,7 +18,7 @@ export class AuthRegisterPage {
   ) { }
 
   public register() {
-    this.auth.register(this.registerCredentials)
+    this.auth.register({email: this.registerCredentials.email, password: this.registerCredentials.password}, this.registerCredentials.name)
       .then(state => {
         this.navCtrl.popToRoot();
       })

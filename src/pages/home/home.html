@@ -22,7 +22,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="login-content" padding *ngIf="isAuthenticated === false">
+  <div class="login-content" *ngIf="isAuthenticated === false" padding>
     <ion-row class="login-row">
       <ion-col></ion-col>
       <ion-col width-67>
@@ -74,7 +74,28 @@
     </div>
   </div>
 
-  <div *ngIf="isAuthenticated === true">
-
+  <div *ngIf="isAuthenticated === true" padding class="page-content">
+    <ion-card *ngFor="let project of projectList | async" (click)="openProject(project)">
+      <ion-card-content>
+        <ion-card-title>
+          {{ project.name }}
+        </ion-card-title>
+        <ion-row>
+          <ion-col col-9>
+            <p>
+              {{ project.description }}
+            </p>
+          </ion-col>
+          <ion-col col-3>
+            <ion-item>
+              <button ion-button icon-right item-right clear (click)="openProject(project)">
+                <ion-icon name="arrow-forward"></ion-icon>
+              </button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    {{ projectList | async | json }}
   </div>
 </ion-content>

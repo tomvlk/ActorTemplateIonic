@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "users": {
+      "$user": {
+        ".read": "auth.uid === $user",
+        ".write": "auth.uid === $user"
+      }
+    },
+    "projects": {
+      "$projectId": {
+        ".read": "data.child('members').child(auth.uid).exists()",
+        ".write": "data.child('members').child(auth.uid).exists()"
+      }
+    }
+  }
+}

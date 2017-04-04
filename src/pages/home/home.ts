@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 
 import { NavController, ModalController, LoadingController, Loading, AlertController, PopoverController } from 'ionic-angular';
 import { Auth } from "../../providers/auth";
-import { FirebaseAuthState, AuthProviders, AuthMethods } from "angularfire2";
+import { FirebaseAuthState, AuthProviders, AuthMethods, AngularFire } from "angularfire2";
 import { AuthRegisterPage } from "../auth-register/auth-register";
 import { HomePopoverPage } from "../home-popover/home-popover";
+import { Project } from "../../app/models";
 
 @Component({
   selector: 'page-home',
@@ -17,17 +18,41 @@ export class HomePage {
 
   public loginCredentials = {email: 'tom.valk@student.hu.nl', password: 'Welkom01'};
 
+  public projectList: Promise<Project[]> = Promise.resolve([]);
+
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
+    public af: AngularFire,
     public auth: Auth,
   ) {
     this.auth.firebase.subscribe(state => {
+      if (this.isAuthenticated !== (state !== null) && state !== null) {
+        this.loadList();
+      }
       this.isAuthenticated = (state !== null);
     });
+  }
+
+  private loadList() {
+    this.af.database.list(`/users/${this.auth.uid}/projects`).subscribe(ids => {
+      let promiseList = [];
+      for (let entry of ids) {
+        promiseList.push(
+          new Promise((resolve, reject) => {
+            this.af.database.object(`/projects/${entry.$key}`).subscribe(project => resolve(project), err => reject(err));
+          })
+        );
+      }
+      this.projectList = Promise.all(promiseList);
+    });
+  }
+
+  public openProject(project: Project) {
+    console.log('OPEN PROJECT', project);
   }
 
   private showLoading() {
