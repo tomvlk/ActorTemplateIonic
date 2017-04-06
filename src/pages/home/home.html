@@ -1,23 +1,28 @@
-<ion-header *ngIf="isAuthenticated === false">
-  <ion-navbar>
-    <ion-title>
-      Login
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-<ion-header *ngIf="isAuthenticated === true">
-  <ion-navbar>
-    <button ion-button menuToggle icon-only>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>
-      Projects
-    </ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="showPopover($event)" icon-only>
-        <ion-icon name="contact"></ion-icon>
+<ion-header>
+  <ion-navbar class="nabarfix">
+    <ng-container *ngIf="isAuthenticated === false">
+      <ion-title>
+        Login
+      </ion-title>
+    </ng-container>
+    <ng-container *ngIf="isAuthenticated === true">
+      <button ion-button menuToggle icon-only class="menu-fix-left">
+        <ion-icon name="menu"></ion-icon>
       </button>
-    </ion-buttons>
+      <ion-buttons start showWhen="android,windows" class="fix">
+        <button ion-button (click)="showPopover($event)" icon-only>
+          <ion-icon name="contact"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-title>
+        Projects
+      </ion-title>
+      <ion-buttons right class="menu-fix-right" showWhen="ios">
+        <button ion-button (click)="showPopover($event)" icon-only>
+          <ion-icon name="contact"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ng-container>
   </ion-navbar>
 </ion-header>
 

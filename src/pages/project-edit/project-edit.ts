@@ -65,6 +65,7 @@ export class ProjectEditPage {
     });
     modal.present();
     modal.onDidDismiss(data => {
+      if (! data || ! data.user) return;
       const user: User = data.user;
 
       // Check if we have validated content.

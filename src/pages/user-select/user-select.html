@@ -4,7 +4,7 @@
       <button ion-button menuToggle icon-only *ngIf="this.type == 'push'">
         <ion-icon name="menu"></ion-icon>
       </button>
-      <button ion-button (click)="dismiss()" *ngIf="this.type == 'modal'">
+      <button ion-button (click)="cancel()" *ngIf="this.type == 'modal'">
         <span ion-text color="primary" showWhen="ios">Cancel</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>

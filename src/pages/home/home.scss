@@ -1,7 +1,18 @@
 page-home {
-  .page-content {
-    margin-top: 45px;
+
+  .nabarfix {
+    ion-buttons.fix {
+      display: inline-block;
+      float: left;
+    }
+    .menu-fix-right {
+      float: right;
+    }
+    .menu-fix-left {
+      float: left;
+    }
   }
+
   .login-content {
     background: #2979FF;
     height: 100%;
