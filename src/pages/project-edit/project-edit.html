@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle icon-only *ngIf="this.type == 'push'">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <button ion-button (click)="dismiss()" *ngIf="this.type == 'modal'">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <ng-container *ngIf="this.project.$key">
+        Edit project
+      </ng-container>
+      <ng-container *ngIf="! this.project.$key">
+        Create project
+      </ng-container>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <form (ngSubmit)="save()" #projectForm="ngForm">
+    <ion-list>
+      <ion-list-header>
+        Project Details
+      </ion-list-header>
+      <ion-item>
+        <ion-input type="text" placeholder="Name" name="name" [(ngModel)]="project.name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="Description" name="description" [(ngModel)]="project.description"></ion-input>
+      </ion-item>
+
+      <ion-list-header>
+        Members
+      </ion-list-header>
+      <ion-item-sliding *ngFor="let user of this.members">
+        <ion-item>
+          {{ user.name }}
+          <ion-note item-right>
+            {{ user.role }}
+          </ion-note>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="primary" type="button" (click)="toggleRole(user)">
+            <span *ngIf="user.role === 'analyst'">
+              Toggle Role
+            </span>
+            <span *ngIf="user.role === 'member'">
+              Analyst role
+            </span>
+          </button>
+          <button ion-button color="danger" (click)="removeMember(user)">
+            Remove
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <button ion-item type="button" (click)="addMember()">
+        Add member
+      </button>
+
+      <ion-item-divider></ion-item-divider>
+      <button ion-button class="submit-btn" full type="submit" [disabled]="!projectForm.form.valid">Save</button>
+    </ion-list>
+  </form>
+</ion-content>

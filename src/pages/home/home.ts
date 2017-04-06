@@ -6,6 +6,7 @@ import { FirebaseAuthState, AuthProviders, AuthMethods, AngularFire } from "angu
 import { AuthRegisterPage } from "../auth-register/auth-register";
 import { HomePopoverPage } from "../home-popover/home-popover";
 import { Project } from "../../app/models";
+import { ProjectEditPage } from "../project-edit/project-edit";
 
 @Component({
   selector: 'page-home',
@@ -53,6 +54,14 @@ export class HomePage {
 
   public openProject(project: Project) {
     console.log('OPEN PROJECT', project);
+  }
+
+  public openAddProject() {
+    const modal = this.modalCtrl.create(ProjectEditPage, {
+      type: 'modal',
+      project: null
+    });
+    modal.present();
   }
 
   private showLoading() {

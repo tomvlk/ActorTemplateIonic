@@ -14,6 +14,8 @@ import { Auth } from "../providers/auth";
 import { AuthForgotPage } from "../pages/auth-forgot/auth-forgot";
 import { AuthRegisterPage } from "../pages/auth-register/auth-register";
 import { HomePopoverPage } from "../pages/home-popover/home-popover";
+import { ProjectEditPage } from "../pages/project-edit/project-edit";
+import { UserSelectPage } from "../pages/user-select/user-select";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { HomePopoverPage } from "../pages/home-popover/home-popover";
     AuthRegisterPage,
     AuthForgotPage,
     HomePopoverPage,
+    ProjectEditPage,
+    UserSelectPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -35,6 +39,8 @@ import { HomePopoverPage } from "../pages/home-popover/home-popover";
     AuthRegisterPage,
     AuthForgotPage,
     HomePopoverPage,
+    ProjectEditPage,
+    UserSelectPage,
   ],
   providers: [
     StatusBar,

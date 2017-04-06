@@ -1,10 +1,7 @@
 <ion-list>
   <ion-list-header>
-    Account
-  </ion-list-header>
-  <ion-item>
     {{ auth.name }}
-  </ion-item>
+  </ion-list-header>
   <button ion-item (click)="close()">User Details</button>
   <button ion-item (click)="auth.signOut() && close()">Logout</button>
 </ion-list>

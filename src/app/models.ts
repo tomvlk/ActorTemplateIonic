@@ -9,7 +9,7 @@ export interface User {
 
 export interface Project {
   $key?: string,
-  members: any,
+  members: Object,
 
   name: string,
   description: string,

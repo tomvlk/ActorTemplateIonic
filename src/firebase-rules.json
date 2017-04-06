@@ -1,15 +1,20 @@
 {
   "rules": {
     "users": {
+      ".read": "auth != null",
       "$user": {
         ".read": "auth.uid === $user",
-        ".write": "auth.uid === $user"
+        ".write": "auth.uid === $user",
+        "projects": {
+          ".read": "auth != null",
+          ".write": "auth != null"
+        }
       }
     },
     "projects": {
       "$projectId": {
         ".read": "data.child('members').child(auth.uid).exists()",
-        ".write": "data.child('members').child(auth.uid).exists()"
+        ".write": "(!data.exists() && newData.exists()) || data.child('members').child(auth.uid).exists()"
       }
     }
   }
