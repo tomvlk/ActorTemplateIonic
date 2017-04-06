@@ -16,6 +16,7 @@ import { AuthRegisterPage } from "../pages/auth-register/auth-register";
 import { HomePopoverPage } from "../pages/home-popover/home-popover";
 import { ProjectEditPage } from "../pages/project-edit/project-edit";
 import { UserSelectPage } from "../pages/user-select/user-select";
+import { FireUtils } from "../providers/fire-utils";
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { UserSelectPage } from "../pages/user-select/user-select";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
 
     Auth,
+    FireUtils,
   ]
 })
 export class AppModule {}

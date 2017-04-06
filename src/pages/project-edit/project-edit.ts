@@ -155,15 +155,17 @@ export class ProjectEditPage {
     this.loading.present();
 
     // Create project.
-    const projects = this.af.database.list('/projects');
-    return projects.push(this.project).then(result => {
-      this.project.$key = result.key;
+    let promise = !this.project.$key ? this.create() : this.update();
+    promise.then((result:any) => {
+      if (! this.project.$key) {
+        this.project.$key = result.key;
+      }
 
       // Add project id to users.
       let promises = [];
       Object.keys(this.project.members).forEach(key => {
         let payload = {};
-        payload[result.key] = true;
+        payload[this.project.$key] = true;
         promises.push(this.af.database.object(`/users/${key}/projects`).update(payload));
       });
       Promise.all(promises).then(() => {
@@ -178,5 +180,14 @@ export class ProjectEditPage {
       this.loading.dismiss();
       return this.showError('Error', 'Error with saving: ' + err.message);
     });
+  }
+
+  update() {
+    return this.af.database.object(`/projects/${this.project.$key}`).update(this.project);
+  }
+
+  create() {
+    const projects = this.af.database.list('/projects');
+    return projects.push(this.project);
   }
 }

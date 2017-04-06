@@ -56,3 +56,13 @@ page-home {
     }
   }
 }
+
+ion-content.cards-bg {
+  background-color: #f4f4f7;
+}
+ion-content.cards-bg ion-card {
+  border-radius: 3px;
+}
+ion-content.cards-bg ion-item-sliding {
+  margin-bottom: 8px;
+}

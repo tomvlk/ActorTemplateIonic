@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController, LoadingController, Loading, AlertController, PopoverController } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, Loading, AlertController, PopoverController, ItemSliding } from 'ionic-angular';
 import { Auth } from "../../providers/auth";
 import { FirebaseAuthState, AuthProviders, AuthMethods, AngularFire } from "angularfire2";
 import { AuthRegisterPage } from "../auth-register/auth-register";
 import { HomePopoverPage } from "../home-popover/home-popover";
 import { Project } from "../../app/models";
 import { ProjectEditPage } from "../project-edit/project-edit";
+import { FireUtils } from "../../providers/fire-utils";
 
 @Component({
   selector: 'page-home',
@@ -29,6 +30,7 @@ export class HomePage {
     public popoverCtrl: PopoverController,
     public af: AngularFire,
     public auth: Auth,
+    public fireUtils: FireUtils,
   ) {
     this.auth.firebase.subscribe(state => {
       if (this.isAuthenticated !== (state !== null) && state !== null) {
@@ -39,21 +41,62 @@ export class HomePage {
   }
 
   private loadList() {
-    this.af.database.list(`/users/${this.auth.uid}/projects`).subscribe(ids => {
+    let query = this.af.database.list(`/users/${this.auth.uid}/projects`);
+    let subscribe = query.subscribe(ids => {
       let promiseList = [];
       for (let entry of ids) {
         promiseList.push(
           new Promise((resolve, reject) => {
-            this.af.database.object(`/projects/${entry.$key}`).subscribe(project => resolve(project), err => reject(err));
+            let subscribe2 = this.af.database.object(`/projects/${entry.$key}`).subscribe(project => {
+              if (subscribe2) subscribe2.unsubscribe();
+              resolve(project)
+            }, err => {
+              if (subscribe2) subscribe2.unsubscribe();
+              console.log(subscribe2);
+              // remove from user.
+              query.remove(entry.$key);
+              // dont resolve.
+            });
           })
         );
       }
       this.projectList = Promise.all(promiseList);
+    }, err => {
+      subscribe.unsubscribe();
     });
   }
 
   public openProject(project: Project) {
     console.log('OPEN PROJECT', project);
+  }
+
+  public openEditProject(slidingItem: ItemSliding, project: Project) {
+    slidingItem.close();
+    const modal = this.modalCtrl.create(ProjectEditPage, {
+      type: 'modal',
+      project: project
+    });
+    modal.present();
+  }
+
+  public removeProject(slidingItem: ItemSliding, project: Project) {
+    slidingItem.close();
+    const alert = this.alertCtrl.create({
+      title: 'Delete project?',
+      message: 'Are you sure you want to delete the whole project?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          handler: data => {
+            this.fireUtils.deleteProject(project);
+          }
+        }
+      ]
+    }).present();
   }
 
   public openAddProject() {

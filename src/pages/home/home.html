@@ -26,7 +26,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content [class.cards-bg]="isAuthenticated === true">
   <div class="login-content" *ngIf="isAuthenticated === false" padding>
     <ion-row class="login-row">
       <ion-col></ion-col>
@@ -81,27 +81,38 @@
 
   <div *ngIf="isAuthenticated === true" padding class="page-content">
     <div style="clear:both;"></div>
-    <ion-card *ngFor="let project of projectList | async" (click)="openProject(project)">
-      <ion-card-content>
-        <ion-card-title>
-          {{ project.name }}
-        </ion-card-title>
-        <ion-row>
-          <ion-col col-9>
-            <p>
-              {{ project.description }}
-            </p>
-          </ion-col>
-          <ion-col col-3>
-            <ion-item>
-              <button ion-button icon-right item-right clear (click)="openProject(project)">
-                <ion-icon name="arrow-forward"></ion-icon>
-              </button>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
-    </ion-card>
+    <ion-list>
+      <ion-item-sliding *ngFor="let project of projectList | async" #slidingItem>
+        <ion-card ion-item (click)="openProject(project)">
+          <ion-card-content>
+            <ion-card-title>
+              {{ project.name }}
+            </ion-card-title>
+            <ion-row>
+              <ion-col col-9>
+                <p>
+                  {{ project.description }}
+                </p>
+              </ion-col>
+              <ion-col col-3>
+                <button ion-button icon-right clear>
+                  <ion-icon name="arrow-forward"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-item-options side="right">
+          <button ion-button color="primary" (click)="openEditProject(slidingItem, project)">
+            Edit
+          </button>
+          <button ion-button color="danger" (click)="removeProject(slidingItem, project)">
+            Remove
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
     {{ projectList | async | json }}
 
 
