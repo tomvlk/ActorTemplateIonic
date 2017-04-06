@@ -80,6 +80,7 @@
   </div>
 
   <div *ngIf="isAuthenticated === true" padding class="page-content">
+    <div style="clear:both;"></div>
     <ion-card *ngFor="let project of projectList | async" (click)="openProject(project)">
       <ion-card-content>
         <ion-card-title>
