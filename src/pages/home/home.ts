@@ -41,26 +41,36 @@ export class HomePage {
   }
 
   private loadList() {
-    let query = this.af.database.list(`/users/${this.auth.uid}/projects`);
-    let subscribe = query.subscribe(ids => {
+    let query = this.af.database.list(`/members`);
+    let subscribe = query.subscribe(projectMemberships => {
       let promiseList = [];
-      for (let entry of ids) {
+      for (let membership of projectMemberships) {
+        if (! this.auth.uid || ! membership.hasOwnProperty(this.auth.uid)) {
+          continue;
+        }
+
         promiseList.push(
           new Promise((resolve, reject) => {
-            let subscribe2 = this.af.database.object(`/projects/${entry.$key}`).subscribe(project => {
+            let subscribe2 = this.af.database.object(`/projects/${membership.$key}`).subscribe(project => {
               if (subscribe2) subscribe2.unsubscribe();
               resolve(project)
             }, err => {
+              console.error(err);
               if (subscribe2) subscribe2.unsubscribe();
-              console.log(subscribe2);
-              // remove from user.
-              query.remove(entry.$key);
-              // dont resolve.
+              let fixQuery = this.af.database.object(`/members/${membership.$key}`);
+              let fixSubscribe = fixQuery.subscribe(entry => {
+                if (fixSubscribe) fixSubscribe.unsubscribe();
+                if (entry.hasOwnProperty(this.auth.uid)) delete entry[this.auth.uid];
+                // fixQuery.set(entry);
+              });
             });
           })
         );
       }
-      this.projectList = Promise.all(promiseList);
+      this.projectList = Promise.all(promiseList).catch(err => {
+        console.error(err);
+        window.location.reload();
+      });
     }, err => {
       subscribe.unsubscribe();
     });

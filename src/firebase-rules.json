@@ -4,17 +4,19 @@
       ".read": "auth != null",
       "$user": {
         ".read": "auth.uid === $user",
-        ".write": "auth.uid === $user",
-        "projects": {
-          ".read": "auth != null",
-          ".write": "auth != null"
-        }
+        ".write": "auth.uid === $user"
       }
     },
     "projects": {
       "$projectId": {
-        ".read": "data.child('members').child(auth.uid).exists()",
-        ".write": "(!data.exists() && newData.exists()) || data.child('members').child(auth.uid).exists()"
+        ".read": "root.child('members').child($projectId).child(auth.uid).exists()",
+        ".write": "(!data.exists() && newData.exists()) || root.child('members').child($projectId).child(auth.uid).exists()"
+      }
+    },
+    "members": {
+      ".read": true,
+      "$projectId": {
+        ".write": "!data.exists() || (root.child('members').child($projectId).child(auth.uid).exists() && root.child('members').child($projectId).child(auth.uid).val() === 'analyst')"
       }
     }
   }

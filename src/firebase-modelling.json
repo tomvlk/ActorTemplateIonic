@@ -15,7 +15,15 @@
         "$userUid": {
           "role": "analyst/member"
         }
+      },
+      "templates": {
+        "$templateId": "true/false"
       }
+    }
+  },
+  "members": {
+    "$projectId": {
+      "$uid": "role"
     }
   },
   "templates": {

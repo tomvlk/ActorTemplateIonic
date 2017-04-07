@@ -13,6 +13,7 @@ export class ProjectEditPage {
   private type: string = 'push';
   private project: Project = null;
   private members: User[];
+  private memberUids: {[uid: string]: string};
   private loading: Loading;
 
   constructor(
@@ -32,13 +33,20 @@ export class ProjectEditPage {
       this.project = navParams.data.project;
     }
 
+    this.memberUids = {};
     if (! this.project) {
       this.project = {name: '', description: '', members: {}};
-      this.project.members[this.auth.uid] = 'analyst';
-    }
+      this.memberUids[this.auth.uid] = 'analyst';
 
-    this.members = [];
-    this.indexMembers();
+      this.indexMembers();
+    } else {
+      let query = this.af.database.object(`/members/${this.project.$key}`);
+      let sub = query.subscribe(members => {
+        if (sub) sub.unsubscribe();
+        this.memberUids = members;
+        this.indexMembers();
+      });
+    }
   }
 
   dismiss() {
@@ -55,7 +63,7 @@ export class ProjectEditPage {
 
   addMember() {
     // Check permission.
-    if (! this.project.members[this.auth.uid] || this.project.members[this.auth.uid] !== 'analyst') {
+    if (! this.memberUids[this.auth.uid] || this.memberUids[this.auth.uid] !== 'analyst') {
       return this.showError('Error', 'You don\'t have the Analyst role for this project!');
     }
 
@@ -72,15 +80,13 @@ export class ProjectEditPage {
       if (user.$key === this.auth.uid) {
         return this.showError('Error', 'You can not add or change yourself!');
       }
-      if (this.project.members[user.$key]) {
+      if (this.memberUids[user.$key]) {
         return this.showError('Error', 'This user is already a member!');
       }
 
       // Add user.
-      if (! this.project.members) this.project.members = {};
-      if (! this.project.members[user.$key]) this.project.members[user.$key] = {};
-
-      this.project.members[user.$key] = 'member';
+      if (! this.memberUids) this.memberUids = {};
+      this.memberUids[user.$key] = 'member';
       this.indexMembers();
     });
   }
@@ -88,18 +94,17 @@ export class ProjectEditPage {
   indexMembers() {
     let members = [];
     let promises = [];
-    for (let uid of Object.keys(this.project.members)) {
+    for (let uid of Object.keys(this.memberUids)) {
       promises.push(new Promise((resolve, reject) => {
         const query = this.af.database.object(`/users/${uid}`);
         const subscription = query.subscribe(user => {
           if (subscription) subscription.unsubscribe();
 
-          user.role = this.project.members[uid];
+          user.role = this.memberUids[uid];
           members.push(user);
           resolve(user);
         }, error => {
           if (subscription) subscription.unsubscribe();
-
           resolve(null);
         });
       }));
@@ -111,7 +116,7 @@ export class ProjectEditPage {
 
   toggleRole(user: any) {
     // Check permission.
-    if (! this.project.members[this.auth.uid] || this.project.members[this.auth.uid] !== 'analyst') {
+    if (! this.memberUids[this.auth.uid] || this.memberUids[this.auth.uid] !== 'analyst') {
       return this.showError('Error', 'You don\'t have the Analyst role for this project!');
     }
     if (user.$key === this.auth.uid) {
@@ -124,14 +129,14 @@ export class ProjectEditPage {
       user.role = 'analyst';
     }
     setTimeout(() => {
-      this.project.members[user.$key] = user.role;
+      this.memberUids[user.$key] = user.role;
       this.indexMembers();
     }, 200);
   }
 
   removeMember(user: any) {
     // Check permission.
-    if (! this.project.members[this.auth.uid] || this.project.members[this.auth.uid] !== 'analyst') {
+    if (! this.memberUids[this.auth.uid] || this.memberUids[this.auth.uid] !== 'analyst') {
       return this.showError('Error', 'You don\'t have the Analyst role for this project!');
     }
     if (user.$key === this.auth.uid) {
@@ -139,14 +144,14 @@ export class ProjectEditPage {
     }
 
     setTimeout(() => {
-      delete this.project.members[user.$key];
+      delete this.memberUids[user.$key];
       this.indexMembers();
     }, 200);
   }
 
   save() {
     // Validate permissions.
-    if (! this.project.members[this.auth.uid] || this.project.members[this.auth.uid] !== 'analyst') {
+    if (! this.memberUids[this.auth.uid] || this.memberUids[this.auth.uid] !== 'analyst') {
       return this.showError('Error', 'You don\'t have the Analyst role for this project!');
     }
 
@@ -155,20 +160,14 @@ export class ProjectEditPage {
     this.loading.present();
 
     // Create project.
-    let promise = !this.project.$key ? this.create() : this.update();
-    promise.then((result:any) => {
+    let promise = ! this.project.$key ? this.create() : this.update();
+    return promise.then((result:any) => {
       if (! this.project.$key) {
         this.project.$key = result.key;
       }
 
       // Add project id to users.
-      let promises = [];
-      Object.keys(this.project.members).forEach(key => {
-        let payload = {};
-        payload[this.project.$key] = true;
-        promises.push(this.af.database.object(`/users/${key}/projects`).update(payload));
-      });
-      Promise.all(promises).then(() => {
+      return this.af.database.object(`/members/${this.project.$key}`).set(this.memberUids).then(res => {
         this.loading.dismiss();
         this.viewCtrl.dismiss();
         return Promise.resolve(this.project);
