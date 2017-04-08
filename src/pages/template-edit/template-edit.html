@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle icon-only *ngIf="this.type == 'push'">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <button ion-button (click)="dismiss()" *ngIf="this.type == 'modal'">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <ng-container *ngIf="this.template.$key">
+        Edit template
+      </ng-container>
+      <ng-container *ngIf="! this.template.$key">
+        Create template
+      </ng-container>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <form (ngSubmit)="save()" #templateForm="ngForm">
+    <ion-list>
+      <ion-list-header>
+        Template Details
+      </ion-list-header>
+      <ion-item>
+        <ion-input type="text" required placeholder="Name" name="name" [(ngModel)]="template.name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" required placeholder="Description" name="description" [(ngModel)]="template.description"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Archive template</ion-label>
+        <ion-toggle name="archived" [(ngModel)]="template.archived"></ion-toggle>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+      <button ion-button class="submit-btn" full type="submit" [disabled]="!templateForm.form.valid">Save</button>
+    </ion-list>
+  </form>
+</ion-content>

@@ -1,0 +1,50 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Actor Templates</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-sliding *ngFor="let template of templates | async" #slidingItem>
+      <ion-card ion-item (click)="openEditTemplate(null, template)">
+        <ion-card-content>
+          <ion-card-title>
+            {{ template.name }}
+          </ion-card-title>
+          <ion-row>
+            <ion-col col-9>
+              <p>
+                {{ template.description }}
+              </p>
+            </ion-col>
+            <ion-col col-3>
+              <button ion-button icon-right clear>
+                <ion-icon name="arrow-forward"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="openEditTemplate(slidingItem, template)">
+          Edit
+        </button>
+        <button ion-button color="danger" (click)="removeTemplate(slidingItem, template)">
+          Remove
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  {{ templates | async | json }}
+
+  <ion-fab right bottom>
+    <button color="primary" ion-fab (click)="openAddTemplate()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

@@ -8,6 +8,7 @@ import { HomePopoverPage } from "../home-popover/home-popover";
 import { Project } from "../../app/models";
 import { ProjectEditPage } from "../project-edit/project-edit";
 import { FireUtils } from "../../providers/fire-utils";
+import { TemplateOverviewPage } from "../template-overview/template-overview";
 
 @Component({
   selector: 'page-home',
@@ -77,7 +78,9 @@ export class HomePage {
   }
 
   public openProject(project: Project) {
-    console.log('OPEN PROJECT', project);
+    this.navCtrl.push(TemplateOverviewPage, {
+      project: project
+    });
   }
 
   public openEditProject(slidingItem: ItemSliding, project: Project) {

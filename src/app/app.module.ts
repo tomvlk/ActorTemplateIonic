@@ -11,12 +11,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { firebaseConfig } from './app.constants';
 
 import { Auth } from "../providers/auth";
+import { FireUtils } from "../providers/fire-utils";
+
 import { AuthForgotPage } from "../pages/auth-forgot/auth-forgot";
 import { AuthRegisterPage } from "../pages/auth-register/auth-register";
 import { HomePopoverPage } from "../pages/home-popover/home-popover";
 import { ProjectEditPage } from "../pages/project-edit/project-edit";
 import { UserSelectPage } from "../pages/user-select/user-select";
-import { FireUtils } from "../providers/fire-utils";
+import { TemplateOverviewPage } from "../pages/template-overview/template-overview";
+import { TemplateEditPage } from "../pages/template-edit/template-edit";
 
 @NgModule({
   declarations: [
@@ -27,6 +30,8 @@ import { FireUtils } from "../providers/fire-utils";
     HomePopoverPage,
     ProjectEditPage,
     UserSelectPage,
+    TemplateOverviewPage,
+    TemplateEditPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -42,6 +47,8 @@ import { FireUtils } from "../providers/fire-utils";
     HomePopoverPage,
     ProjectEditPage,
     UserSelectPage,
+    TemplateOverviewPage,
+    TemplateEditPage,
   ],
   providers: [
     StatusBar,

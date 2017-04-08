@@ -16,5 +16,4 @@ export class FireUtils {
     console.log('DELETE!');
     // TODO: Delete project + all related items!
   }
-
 }

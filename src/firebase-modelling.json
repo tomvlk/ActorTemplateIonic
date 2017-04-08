@@ -17,20 +17,17 @@
         }
       },
       "templates": {
-        "$templateId": "true/false"
+        "$templateId": {
+          "name": "Name of actor template",
+          "description": "Description of template",
+          "archived": "boolean, if archived or not."
+        }
       }
     }
   },
   "members": {
     "$projectId": {
       "$uid": "role"
-    }
-  },
-  "templates": {
-    "$templateId": {
-      "name": "Name of actor template",
-      "description": "Description of template",
-      "archived": "boolean, if archived or not."
     }
   },
   "persons": {

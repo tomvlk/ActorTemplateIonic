@@ -15,4 +15,10 @@ export interface Project {
   description: string,
 }
 
+export interface ActorTemplate {
+  $key?: string,
 
+  name: string,
+  description: string,
+  archived: boolean,
+}
