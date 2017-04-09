@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="cards-bg">
   <ion-list>
     <ion-item-sliding *ngFor="let template of templates | async" #slidingItem>
       <ion-card ion-item (click)="openTemplate(null, template)" *ngIf="! template.archived">
@@ -39,7 +39,8 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  {{ templates | async | json }}
+
+  <!-- {{ templates | async | json }} -->
 
   <ion-fab right bottom>
     <button color="primary" ion-fab (click)="openAddTemplate()">
