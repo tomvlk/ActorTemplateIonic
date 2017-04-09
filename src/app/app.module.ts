@@ -7,6 +7,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Camera } from '@ionic-native/camera';
 
 import { firebaseConfig } from './app.constants';
 
@@ -62,6 +64,8 @@ import { PersonSelectPage } from "../pages/person-select/person-select";
   providers: [
     StatusBar,
     SplashScreen,
+    ImagePicker,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
 
     Auth,

@@ -28,6 +28,16 @@
         Person Details
       </ion-list-header>
       <ion-item>
+        <ion-avatar (click)="openChangePicture()">
+          <ng-container *ngIf="personImageURL">
+            <img src="{{ personImageURL }}">
+          </ng-container>
+          <ng-container *ngIf="! personImageURL">
+            <img src="assets/img/profile.jpg">
+          </ng-container>
+        </ion-avatar>
+      </ion-item>
+      <ion-item>
         <ion-input type="text" placeholder="Name" name="name" [(ngModel)]="person.name" required></ion-input>
       </ion-item>
       <ion-item>
@@ -41,13 +51,6 @@
       </ion-item>
       <ion-item>
         <ion-input type="text" placeholder="Description" name="description" [(ngModel)]="person.description"></ion-input>
-      </ion-item>
-
-      <ion-list-header>
-        Photo
-      </ion-list-header>
-      <ion-item>
-        -photo
       </ion-item>
 
       <ion-item-divider></ion-item-divider>
