@@ -10,7 +10,7 @@
 <ion-content padding>
   <ion-list>
     <ion-item-sliding *ngFor="let template of templates | async" #slidingItem>
-      <ion-card ion-item (click)="openEditTemplate(null, template)">
+      <ion-card ion-item (click)="openEditTemplate(null, template)" *ngIf="! template.archived">
         <ion-card-content>
           <ion-card-title>
             {{ template.name }}
@@ -33,8 +33,8 @@
         <button ion-button color="primary" (click)="openEditTemplate(slidingItem, template)">
           Edit
         </button>
-        <button ion-button color="danger" (click)="removeTemplate(slidingItem, template)">
-          Remove
+        <button ion-button color="secondary" (click)="archiveTemplate(slidingItem, template)">
+          Archive
         </button>
       </ion-item-options>
     </ion-item-sliding>

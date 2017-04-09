@@ -52,9 +52,10 @@ export class TemplateOverviewPage {
     modal.present();
   }
 
-  removeTemplate(slidingItem: ItemSliding, template: ActorTemplate) {
+  archiveTemplate(slidingItem: ItemSliding, template: ActorTemplate) {
     if (slidingItem) slidingItem.close();
-    this.af.database.object(`/projects/${this.project.$key}/templates/${template.$key}`).remove();
+    template.archived = true;
+    this.af.database.object(`/projects/${this.project.$key}/templates/${template.$key}`).update(template);
   }
 
 }
