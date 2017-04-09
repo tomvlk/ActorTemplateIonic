@@ -2,7 +2,7 @@
 export interface User {
   $key?: string,
 
-  projects: any,
+  projects: {[key: string]: any},
 
   name: string,
 }
@@ -13,6 +13,9 @@ export interface Project {
 
   name: string,
   description: string,
+
+  templates?: {[key: string]: ActorTemplate},
+  persons?: {[key: string]: Person},
 }
 
 export interface ActorTemplate {
@@ -21,4 +24,17 @@ export interface ActorTemplate {
   name: string,
   description: string,
   archived: boolean,
+
+  persons?: any,
+}
+
+export interface Person {
+  $key?: string,
+
+  name: string,
+  photo: string,
+  function: string,
+  email: string,
+  phone: string,
+  description: string,
 }

@@ -3,6 +3,7 @@ import { NavController, NavParams, AlertController, ViewController, ModalControl
 import { Project, ActorTemplate } from "../../app/models";
 import { TemplateEditPage } from "../template-edit/template-edit";
 import { AngularFire, FirebaseListObservable } from "angularfire2";
+import { TemplateDetailPage } from "../template-detail/template-detail";
 
 
 @Component({
@@ -50,6 +51,15 @@ export class TemplateOverviewPage {
       template: template,
     });
     modal.present();
+  }
+
+  openTemplate(slidingItem: ItemSliding, template: ActorTemplate) {
+    if (slidingItem) slidingItem.close();
+    this.navCtrl.push(TemplateDetailPage, {
+      type: 'push',
+      project: this.project,
+      template: template
+    });
   }
 
   archiveTemplate(slidingItem: ItemSliding, template: ActorTemplate) {

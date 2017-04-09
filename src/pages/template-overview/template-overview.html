@@ -10,7 +10,7 @@
 <ion-content padding>
   <ion-list>
     <ion-item-sliding *ngFor="let template of templates | async" #slidingItem>
-      <ion-card ion-item (click)="openEditTemplate(null, template)" *ngIf="! template.archived">
+      <ion-card ion-item (click)="openTemplate(null, template)" *ngIf="! template.archived">
         <ion-card-content>
           <ion-card-title>
             {{ template.name }}

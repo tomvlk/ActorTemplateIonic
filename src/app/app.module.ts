@@ -20,6 +20,7 @@ import { ProjectEditPage } from "../pages/project-edit/project-edit";
 import { UserSelectPage } from "../pages/user-select/user-select";
 import { TemplateOverviewPage } from "../pages/template-overview/template-overview";
 import { TemplateEditPage } from "../pages/template-edit/template-edit";
+import { TemplateDetailPage } from "../pages/template-detail/template-detail";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TemplateEditPage } from "../pages/template-edit/template-edit";
     ProjectEditPage,
     UserSelectPage,
     TemplateOverviewPage,
+    TemplateDetailPage,
     TemplateEditPage,
   ],
   imports: [
@@ -48,6 +50,7 @@ import { TemplateEditPage } from "../pages/template-edit/template-edit";
     ProjectEditPage,
     UserSelectPage,
     TemplateOverviewPage,
+    TemplateDetailPage,
     TemplateEditPage,
   ],
   providers: [
