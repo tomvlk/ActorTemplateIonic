@@ -20,7 +20,17 @@
         "$templateId": {
           "name": "Name of actor template",
           "description": "Description of template",
-          "archived": "boolean, if archived or not."
+          "archived": "boolean, if archived or not.",
+          "persons": {
+            "$personId": {
+              "name": "Name of person",
+              "photo": "Uri of photo (use firebase storage?)",
+              "function": "Function of person",
+              "email": "Email of person",
+              "phone": "Phone of person",
+              "description": "Description of person"
+            }
+          }
         }
       }
     }
@@ -28,16 +38,6 @@
   "members": {
     "$projectId": {
       "$uid": "role"
-    }
-  },
-  "persons": {
-    "$personId": {
-      "name": "Name of person",
-      "photo": "Uri of photo (use firebase storage?)",
-      "function": "Function of person",
-      "email": "Email of person",
-      "phone": "Phone of person",
-      "description": "Description of person"
     }
   }
 }
