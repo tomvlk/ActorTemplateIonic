@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController, AlertController, ModalController, LoadingController, Loading } from 'ionic-angular';
 import { Auth } from "../../providers/auth";
-import { AngularFire } from "angularfire2";
-import { ActorTemplate, Project } from "../../app/models";
+import { AngularFire, FirebaseListObservable } from "angularfire2";
+import { ActorTemplate, Project, Person } from "../../app/models";
 
 
 @Component({

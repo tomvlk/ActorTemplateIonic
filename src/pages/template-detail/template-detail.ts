@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
-import { Project, ActorTemplate } from "../../app/models";
+import { NavController, NavParams, ModalController, ItemSliding } from 'ionic-angular';
+import { Project, ActorTemplate, Person } from "../../app/models";
 import { TemplateEditPage } from "../template-edit/template-edit";
+import { AngularFire, FirebaseListObservable } from "angularfire2";
+import { PersonSelectPage } from "../person-select/person-select";
+import { PersonEditPage } from "../person-edit/person-edit";
 
 
 @Component({
@@ -13,16 +16,64 @@ export class TemplateDetailPage {
   private project: Project;
   private template: ActorTemplate;
 
+  private persons: Promise<Person[]>;
+  private personUids: FirebaseListObservable<any[]>;
+
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public navParams: NavParams,
+    public af: AngularFire,
   ) {
     this.type = navParams.data['type'];
     this.project = navParams.data['project'];
     this.template = navParams.data['template'];
+
+    this.personUids = af.database.list(`/projects/${this.project.$key}/templates/${this.template.$key}/persons`);
+    this.personUids.subscribe(memberDict => {
+      let promises = [];
+      memberDict.forEach(member => {
+        promises.push(new Promise((resolve, reject) => {
+          let query = this.af.database.object(`/projects/${this.project.$key}/persons/${member.$key}`);
+          let sub = query.subscribe(person => {
+            if (sub) sub.unsubscribe();
+            return resolve(person);
+          });
+        }));
+      });
+      this.persons = Promise.all(promises);
+    });
   }
 
+  openAddPerson() {
+    const modal = this.modalCtrl.create(PersonSelectPage, {
+      type: 'modal',
+      project: this.project,
+      template: this.template,
+    });
+    modal.present();
+    modal.onDidDismiss(data => {
+      if (! data || ! data.person) return;
+      const person: Person = data.person;
+      this.personUids.update(person.$key, {member: true});
+    });
+  }
+
+  removePerson(slidingItem: ItemSliding, person: Person) {
+    if (slidingItem) slidingItem.close();
+    this.personUids.remove(person.$key);
+  }
+
+  editPerson(slidingItem: ItemSliding, person: Person) {
+    if (slidingItem) slidingItem.close();
+    const modal = this.modalCtrl.create(PersonEditPage, {
+      type: 'modal',
+      project: this.project,
+      template: this.template,
+      person: person,
+    });
+    modal.present();
+  }
 
   openEditModal() {
     const modal = this.modalCtrl.create(TemplateEditPage, {

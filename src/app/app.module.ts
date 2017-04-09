@@ -21,6 +21,8 @@ import { UserSelectPage } from "../pages/user-select/user-select";
 import { TemplateOverviewPage } from "../pages/template-overview/template-overview";
 import { TemplateEditPage } from "../pages/template-edit/template-edit";
 import { TemplateDetailPage } from "../pages/template-detail/template-detail";
+import { PersonEditPage } from "../pages/person-edit/person-edit";
+import { PersonSelectPage } from "../pages/person-select/person-select";
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { TemplateDetailPage } from "../pages/template-detail/template-detail";
     TemplateOverviewPage,
     TemplateDetailPage,
     TemplateEditPage,
+    PersonSelectPage,
+    PersonEditPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -52,6 +56,8 @@ import { TemplateDetailPage } from "../pages/template-detail/template-detail";
     TemplateOverviewPage,
     TemplateDetailPage,
     TemplateEditPage,
+    PersonSelectPage,
+    PersonEditPage,
   ],
   providers: [
     StatusBar,

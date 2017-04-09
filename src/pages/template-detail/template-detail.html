@@ -30,10 +30,27 @@
     </ion-item>
 
     <ion-item-divider></ion-item-divider>
-
-    <ion-item>
+    <ion-list-header>
       Persons
-    </ion-item>
+      <button ion-button round item-right icon-left (click)="openAddPerson()">
+        <ion-icon name="add"></ion-icon>
+        Add person
+      </button>
+    </ion-list-header>
+
+    <ion-item-sliding *ngFor="let person of persons | async" #slidingItem>
+      <ion-item>
+        {{ person.name }}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="editPerson(slidingItem, person)">
+          Edit
+        </button>
+        <button ion-button color="danger" (click)="removePerson(slidingItem, person)">
+          Remove
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
 
     <ion-item-divider></ion-item-divider>
 
