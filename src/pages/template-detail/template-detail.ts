@@ -5,7 +5,6 @@ import { TemplateEditPage } from "../template-edit/template-edit";
 import { AngularFire, FirebaseListObservable, FirebaseApp } from "angularfire2";
 import { PersonSelectPage } from "../person-select/person-select";
 import { PersonEditPage } from "../person-edit/person-edit";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 
 @Component({

@@ -1,8 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { NavController, NavParams, ViewController, LoadingController, Loading, AlertController, ActionSheetController, Platform } from 'ionic-angular';
-import { Project, ActorTemplate, Person } from "../../app/models";
+import { Project, Person } from "../../app/models";
 import { AngularFire, FirebaseApp } from "angularfire2";
-import * as firebase from 'firebase';
 import { ImagePicker } from "@ionic-native/image-picker";
 import { Camera } from "@ionic-native/camera";
 

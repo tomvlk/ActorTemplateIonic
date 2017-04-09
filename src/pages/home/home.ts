@@ -94,7 +94,7 @@ export class HomePage {
 
   public removeProject(slidingItem: ItemSliding, project: Project) {
     slidingItem.close();
-    const alert = this.alertCtrl.create({
+    this.alertCtrl.create({
       title: 'Delete project?',
       message: 'Are you sure you want to delete the whole project?',
       buttons: [
