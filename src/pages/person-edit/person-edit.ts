@@ -149,10 +149,13 @@ export class PersonEditPage {
       }
       if (this.personImageURL && this.personImageURL.startsWith('data:')) {
         this.loading.setContent('Uploading...');
-        return this.uploadPhoto().then(() => {
-          this.person.photo = 'persons/' + this.person.$key;
-          return this.update();
-        });
+        return this.uploadPhoto();
+      }
+      return Promise.resolve();
+    }).then(() => {
+      if (this.personImageURL && this.personImageURL.startsWith('data:')) {
+        this.person.photo = 'persons/' + this.person.$key;
+        return this.update();
       }
       return Promise.resolve();
     }).then(() => {
@@ -165,7 +168,14 @@ export class PersonEditPage {
   }
 
   update() {
-    return this.af.database.object(`/projects/${this.project.$key}/persons/${this.person.$key}`).update(this.person);
+    return this.af.database.object(`/projects/${this.project.$key}/persons/${this.person.$key}`).update({
+      name: this.person.name,
+      photo: this.person.photo,
+      function: this.person.function,
+      email: this.person.email,
+      phone: this.person.phone,
+      description: this.person.description
+    });
   }
 
   create() {
