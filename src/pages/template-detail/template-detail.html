@@ -40,6 +40,9 @@
 
     <ion-item-sliding *ngFor="let person of persons | async" #slidingItem>
       <ion-item>
+        <ion-avatar item-left>
+          <img src="{{ person.photoPromise | async }}">
+        </ion-avatar>
         {{ person.name }}
       </ion-item>
       <ion-item-options side="right">

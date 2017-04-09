@@ -25,6 +25,9 @@
   <ion-list>
     <ion-item-sliding *ngFor="let person of persons | async" #slidingItem>
       <button ion-item type="button" (click)="select(person)" >
+        <ion-avatar item-left>
+          <img src="{{ person.photoPromise | async }}">
+        </ion-avatar>
         {{ person.name }}
       </button>
       <ion-item-options side="right">

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NavController, NavParams, ModalController, ItemSliding } from 'ionic-angular';
 import { Project, ActorTemplate, Person } from "../../app/models";
 import { TemplateEditPage } from "../template-edit/template-edit";
-import { AngularFire, FirebaseListObservable } from "angularfire2";
+import { AngularFire, FirebaseListObservable, FirebaseApp } from "angularfire2";
 import { PersonSelectPage } from "../person-select/person-select";
 import { PersonEditPage } from "../person-edit/person-edit";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 
 @Component({
@@ -24,6 +25,7 @@ export class TemplateDetailPage {
     public modalCtrl: ModalController,
     public navParams: NavParams,
     public af: AngularFire,
+    @Inject(FirebaseApp) public firebaseApp: any,
   ) {
     this.type = navParams.data['type'];
     this.project = navParams.data['project'];
@@ -37,6 +39,14 @@ export class TemplateDetailPage {
           let query = this.af.database.object(`/projects/${this.project.$key}/persons/${member.$key}`);
           let sub = query.subscribe(person => {
             if (sub) sub.unsubscribe();
+            person.photoPromise = new Promise((resolve, reject) => {
+              if (! person.photo) return resolve('assets/img/profile.jpg');
+              this.firebaseApp.storage().ref(person.photo).getDownloadURL().then(url => {
+                return resolve(url);
+              }).catch(err => {
+                return resolve('assets/img/profile.jpg');
+              });
+            });
             return resolve(person);
           });
         }));
