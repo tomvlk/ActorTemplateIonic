@@ -41,11 +41,6 @@ export class HomePage {
     });
   }
 
-  ionViewDidLoad() {
-    this.loading = this.loadingCtrl.create();
-    this.loading.present();
-  }
-
   private loadList() {
     let query = this.af.database.list(`/members`);
     let subscribe = query.subscribe(projectMemberships => {
@@ -56,6 +51,8 @@ export class HomePage {
           continue;
         }
 
+        this.loading = this.loadingCtrl.create();
+        this.loading.present();
         promiseList.push(
           new Promise((resolve, reject) => {
             let subscribe2 = this.af.database.object(`/projects/${membership.$key}`).subscribe(project => {
@@ -77,6 +74,9 @@ export class HomePage {
       this.projectList = Promise.all(promiseList).catch(err => {
         console.error(err);
         window.location.reload();
+      });
+      this.projectList.then(_ => {
+        if (this.loading) this.loading.dismiss();
       });
     }, err => {
       subscribe.unsubscribe();
