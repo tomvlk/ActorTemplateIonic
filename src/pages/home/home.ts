@@ -41,9 +41,15 @@ export class HomePage {
     });
   }
 
+  ionViewDidLoad() {
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
+  }
+
   private loadList() {
     let query = this.af.database.list(`/members`);
     let subscribe = query.subscribe(projectMemberships => {
+      if (this.loading) this.loading.dismiss();
       let promiseList = [];
       for (let membership of projectMemberships) {
         if (! this.auth.uid || ! membership.hasOwnProperty(this.auth.uid)) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, ViewController, ModalController, ItemSliding } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ViewController, ModalController, ItemSliding, Loading, LoadingController } from 'ionic-angular';
 import { Project, ActorTemplate } from "../../app/models";
 import { TemplateEditPage } from "../template-edit/template-edit";
 import { AngularFire, FirebaseListObservable } from "angularfire2";
@@ -12,6 +12,7 @@ import { TemplateDetailPage } from "../template-detail/template-detail";
 })
 export class TemplateOverviewPage {
 
+  private loading: Loading;
   private project: Project;
   private templates: FirebaseListObservable<ActorTemplate[]>;
 
@@ -20,6 +21,7 @@ export class TemplateOverviewPage {
     public viewCtrl: ViewController,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
+    public loadingCtrl: LoadingController,
     public navParams: NavParams,
     public af: AngularFire,
   ) {
@@ -32,6 +34,14 @@ export class TemplateOverviewPage {
     }
 
     this.templates = this.af.database.list(`/projects/${this.project.$key}/templates`);
+  }
+
+  ionViewDidLoad() {
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
+    this.templates.subscribe(_ => {
+      if (this.loading) this.loading.dismiss();
+    });
   }
 
   openAddTemplate() {
